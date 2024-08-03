@@ -1,0 +1,70 @@
+function isPlanningPermissionRequired(location, height, constraints, otherFactors):
+    # Check Universal Categories First
+    if location == 'adjacent to highway' and height > 1:
+        return true
+
+    if location == 'facing listed building':
+        return true
+
+    if height > 2:
+        return true
+
+    # Check Planning Constraints
+    planningConstraints = [
+        'listed building',
+        'Article 2(3) Land',
+        'Article 2(4) Land',
+        'Article 4 Directive',
+        'AONB',
+        'TPO'
+    ]
+
+    for constraint in planningConstraints:
+        if constraint in constraints:
+            return true
+
+    # Check Other Factors
+    otherConstraints = [
+        'permitted development rights removed',
+        'new build property restrictions'
+    ]
+
+    for factor in otherConstraints:
+        if factor in otherFactors:
+            return true
+
+    # Check Other Categories
+    if checkOtherCategories(location, height, constraints):
+        return true
+
+    return false
+
+function checkOtherCategories(location, height, constraints):
+    # Other Categories Column 2A1
+    if location == 'adjacent to highway' and height > 1:
+        return true
+
+    # Other Categories Column 2A2
+    if height > 2:
+        return true
+
+    # Other Categories Column 2A3
+    planningConstraints = [
+        'listed building',
+        'Article 2(3) Land',
+        'Article 2(4) Land',
+        'Article 4 Directive',
+        'AONB',
+        'TPO'
+    ]
+
+    for constraint in planningConstraints:
+        if constraint in constraints:
+            return true
+
+    # Other Categories Column 2A4
+    # Planning permission not required if height <= 2 and no constraints
+    if height <= 2 and not constraints overlap with planningConstraints:
+        return false
+
+    return false
